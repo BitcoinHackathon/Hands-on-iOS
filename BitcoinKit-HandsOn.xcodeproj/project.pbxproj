@@ -12,6 +12,11 @@
 		0CD8D33921537A40005E941E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CD8D33721537A40005E941E /* Main.storyboard */; };
 		0CD8D33B21537A41005E941E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CD8D33A21537A41005E941E /* Assets.xcassets */; };
 		0CD8D33E21537A41005E941E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CD8D33C21537A41005E941E /* LaunchScreen.storyboard */; };
+		0CD8D34721537C95005E941E /* BitcoinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD8D34621537C95005E941E /* BitcoinKit.framework */; };
+		0CD8D34A21537E79005E941E /* MockScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34921537E79005E941E /* MockScripts.swift */; };
+		0CD8D34C215388C7005E941E /* SendUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34B215388C7005E941E /* SendUtility.swift */; };
+		0CD8D34E21539D9B005E941E /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34D21539D9B005E941E /* AnswerViewController.swift */; };
+		0CD8D35021539DAB005E941E /* AnswerMockScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		0CD8D33A21537A41005E941E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CD8D33D21537A41005E941E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0CD8D33F21537A41005E941E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CD8D34621537C95005E941E /* BitcoinKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BitcoinKit.framework; path = Carthage/Build/iOS/BitcoinKit.framework; sourceTree = "<group>"; };
+		0CD8D34921537E79005E941E /* MockScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockScripts.swift; sourceTree = "<group>"; };
+		0CD8D34B215388C7005E941E /* SendUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendUtility.swift; sourceTree = "<group>"; };
+		0CD8D34D21539D9B005E941E /* AnswerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
+		0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerMockScripts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD8D34721537C95005E941E /* BitcoinKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +51,7 @@
 			children = (
 				0CD8D33221537A40005E941E /* BitcoinKit-HandsOn */,
 				0CD8D33121537A40005E941E /* Products */,
+				0CD8D34521537C95005E941E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +68,24 @@
 			children = (
 				0CD8D33321537A40005E941E /* AppDelegate.swift */,
 				0CD8D33521537A40005E941E /* ViewController.swift */,
+				0CD8D34D21539D9B005E941E /* AnswerViewController.swift */,
+				0CD8D34921537E79005E941E /* MockScripts.swift */,
+				0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */,
+				0CD8D34B215388C7005E941E /* SendUtility.swift */,
 				0CD8D33721537A40005E941E /* Main.storyboard */,
 				0CD8D33A21537A41005E941E /* Assets.xcassets */,
 				0CD8D33C21537A41005E941E /* LaunchScreen.storyboard */,
 				0CD8D33F21537A41005E941E /* Info.plist */,
 			);
 			path = "BitcoinKit-HandsOn";
+			sourceTree = "<group>";
+		};
+		0CD8D34521537C95005E941E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0CD8D34621537C95005E941E /* BitcoinKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +95,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0CD8D34221537A41005E941E /* Build configuration list for PBXNativeTarget "BitcoinKit-HandsOn" */;
 			buildPhases = (
+				0CD8D34821537C9C005E941E /* Carthage */,
 				0CD8D32C21537A40005E941E /* Sources */,
 				0CD8D32D21537A40005E941E /* Frameworks */,
 				0CD8D32E21537A40005E941E /* Resources */,
@@ -130,6 +155,24 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0CD8D34821537C9C005E941E /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/BitcoinKit.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0CD8D32C21537A40005E941E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -137,6 +180,10 @@
 			files = (
 				0CD8D33621537A40005E941E /* ViewController.swift in Sources */,
 				0CD8D33421537A40005E941E /* AppDelegate.swift in Sources */,
+				0CD8D35021539DAB005E941E /* AnswerMockScripts.swift in Sources */,
+				0CD8D34E21539D9B005E941E /* AnswerViewController.swift in Sources */,
+				0CD8D34C215388C7005E941E /* SendUtility.swift in Sources */,
+				0CD8D34A21537E79005E941E /* MockScripts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +328,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "BitcoinKit-HandsOn/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -298,6 +349,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "BitcoinKit-HandsOn/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

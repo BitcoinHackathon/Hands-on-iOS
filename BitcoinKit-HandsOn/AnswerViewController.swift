@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  AnswerViewController.swift
 //  BitcoinKit-HandsOn
 //
 //  Created by Akifumi Fujita on 2018/09/20.
@@ -9,7 +9,7 @@
 import UIKit
 import BitcoinKit
 
-class ViewController: UIViewController {
+class AnswerViewController: UIViewController {
     @IBOutlet weak var qrCodeImageView: UIImageView!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!
@@ -20,26 +20,31 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createWalletIfNeeded()
-        //updateLabels()
+        updateLabels()
         
         //testMockScript()
     }
     
     func createWalletIfNeeded() {
         if wallet == nil {
-
+            let privateKey = PrivateKey(network: .testnet)
+            wallet = Wallet(privateKey: privateKey)
+            wallet?.save()
         }
     }
     
     func updateLabels() {
-
-//        if let balance = wallet?.balance() {
-//            balanceLabel.text = "Balance : \(balance) satoshi"
-//        }
+        qrCodeImageView.image = wallet?.address.qrImage()
+        addressLabel.text = wallet?.address.cashaddr
+        if let balance = wallet?.balance() {
+            balanceLabel.text = "Balance : \(balance) satoshi"
+        }
     }
     
     func updateBalance() {
-
+        wallet?.reloadBalance(completion: { [weak self] (utxos) in
+            DispatchQueue.main.async { self?.updateLabels() }
+        })
     }
     
     func testMockScript() {
@@ -65,7 +70,11 @@ class ViewController: UIViewController {
         }
         
         do {
-
+            let address: Address = try AddressFactory.create(addressString)
+            try wallet?.send(to: address, amount: 10000, completion: { [weak self] (response) in
+                print(response ?? "")
+                self?.updateBalance()
+            })
         } catch {
             print(error)
         }
