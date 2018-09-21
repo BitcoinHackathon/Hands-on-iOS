@@ -60,6 +60,23 @@ class AnswerViewController: UIViewController {
         }
     }
     
+    func customSend(to toAddress: Address, amount: UInt64, completion: ((String?) -> Void)?) throws {
+        guard let wallet = wallet else {
+            return
+        }
+        let utxos = wallet.utxos()
+        let (utxosToSpend, fee) = try StandardUtxoSelector().select(from: utxos, targetValue: amount)
+        let totalAmount: UInt64 = utxosToSpend.reduce(UInt64()) { $0 + $1.output.value }
+        let change: UInt64 = totalAmount - amount - fee
+        
+        // ここがカスタム！
+        let unsignedTx = try SendUtility.customTransactionBuild(to: (toAddress, amount), change: (wallet.address, change), utxos: utxosToSpend)
+        let signedTx = try SendUtility.customTransactionSign(unsignedTx, with: [wallet.privateKey])
+        
+        let rawtx = signedTx.serialized().hex
+        BitcoinComTransactionBroadcaster(network: .testnet).post(rawtx, completion: completion)
+    }
+    
     @IBAction func didTapReloadBalanceButton(_ sender: UIButton) {
         updateBalance()
     }
