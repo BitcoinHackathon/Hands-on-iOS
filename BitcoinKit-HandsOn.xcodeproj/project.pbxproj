@@ -17,6 +17,7 @@
 		0CD8D34C215388C7005E941E /* SendUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34B215388C7005E941E /* SendUtility.swift */; };
 		0CD8D34E21539D9B005E941E /* AnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34D21539D9B005E941E /* AnswerViewController.swift */; };
 		0CD8D35021539DAB005E941E /* AnswerMockScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */; };
+		0CD8D3522154904C005E941E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8D3512154904C005E941E /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		0CD8D34B215388C7005E941E /* SendUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendUtility.swift; sourceTree = "<group>"; };
 		0CD8D34D21539D9B005E941E /* AnswerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewController.swift; sourceTree = "<group>"; };
 		0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerMockScripts.swift; sourceTree = "<group>"; };
+		0CD8D3512154904C005E941E /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				0CD8D34921537E79005E941E /* MockScripts.swift */,
 				0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */,
 				0CD8D34B215388C7005E941E /* SendUtility.swift */,
+				0CD8D3512154904C005E941E /* Extension.swift */,
 				0CD8D33721537A40005E941E /* Main.storyboard */,
 				0CD8D33A21537A41005E941E /* Assets.xcassets */,
 				0CD8D33C21537A41005E941E /* LaunchScreen.storyboard */,
@@ -180,6 +183,7 @@
 			files = (
 				0CD8D33621537A40005E941E /* ViewController.swift in Sources */,
 				0CD8D33421537A40005E941E /* AppDelegate.swift in Sources */,
+				0CD8D3522154904C005E941E /* Extension.swift in Sources */,
 				0CD8D35021539DAB005E941E /* AnswerMockScripts.swift in Sources */,
 				0CD8D34E21539D9B005E941E /* AnswerViewController.swift in Sources */,
 				0CD8D34C215388C7005E941E /* SendUtility.swift in Sources */,

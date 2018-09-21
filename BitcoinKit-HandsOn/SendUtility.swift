@@ -77,22 +77,3 @@ class SendUtility {
         return Data(from: Int32(dateUnix).littleEndian)
     }
 }
-
-protocol BinaryConvertible {
-    static func +(lhs: Data, rhs: Self) -> Data
-    static func +=(lhs: inout Data, rhs: Self)
-}
-
-extension BinaryConvertible {
-    static func +(lhs: Data, rhs: Self) -> Data {
-        var value = rhs
-        let data = Data(buffer: UnsafeBufferPointer(start: &value, count: 1))
-        return lhs + data
-    }
-    
-    static func +=(lhs: inout Data, rhs: Self) {
-        lhs = lhs + rhs
-    }
-}
-
-extension UInt8: BinaryConvertible {}

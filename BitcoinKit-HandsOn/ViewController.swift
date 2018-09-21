@@ -36,9 +36,6 @@ class ViewController: UIViewController {
             
             // TODO: 1-3. Walletの保存
             // wallet?."WRITE ME"
-            let privateKey = PrivateKey(network: .testnet)
-            wallet = Wallet(privateKey: privateKey)
-            wallet?.save()
         }
     }
     
@@ -51,26 +48,16 @@ class ViewController: UIViewController {
         // TODO: 2-3. AddressのQRCodeを表示
         // qrCodeImageView.image = "WRITE ME"
         
-        print(wallet?.address.cashaddr)
-        addressLabel.text = wallet?.address.cashaddr
-        qrCodeImageView.image = wallet?.address.qrImage()
-
+        
         // TODO: - 3. Balanceの表示
         // TODO: 3-1. Balanceの表示
         // let balance: UInt64 = "WRITE ME"
         // balanceLabel.text = "Balance : \(balance) satoshi"
-        
-        if let balance = wallet?.balance() {
-            balanceLabel.text = "Balance : \(balance) satoshi"
-        }
     }
     
     func reloadBalance() {
         // TODO: 3-2. Balanceの更新
         // "WRITE ME"
-        wallet?.reloadBalance(completion: { [weak self] (_) in
-            DispatchQueue.main.async { self?.updateLabels() }
-        })
     }
     
     @IBAction func didTapReloadBalanceButton(_ sender: UIButton) {
@@ -89,11 +76,6 @@ class ViewController: UIViewController {
             
             // TODO: 4-2. ウォレットから送金 [送金完了後、reloadBalanceもやろう！]
             // WRITE ME!
-            let address: Address = try AddressFactory.create(addressString)
-            try wallet?.send(to: address, amount: 300, completion: { [weak self] (response) in
-                print("送金完了　txid : ", response ?? "")
-                self?.reloadBalance()
-            })
         } catch {
             print(error)
         }
@@ -108,11 +90,11 @@ func testMockScript() {
         let result1 = try MockHelper.verifySingleKey(lockScript: simpleCalculation.lockScript, unlockScriptBuilder: simpleCalculation.unlockScriptBuilder, key: MockKey.keyA)
         print("Mock result1: \(result1)")
 
-        let result2 = try MockHelper.verifySingleKey(lockScript: P2PKH.lockScript, unlockScriptBuilder: P2PKH.unlockScriptBuilder, key: MockKey.keyA)
-        print("Mock result2: \(result2)")
+        //let result2 = try MockHelper.verifySingleKey(lockScript: P2PKH.lockScript, unlockScriptBuilder: P2PKH.unlockScriptBuilder, key: MockKey.keyA)
+        //print("Mock result2: \(result2)")
 
-        let result3 = try MockHelper.verifyMultiKey(lockScript: Multisig2of3.lockScript, unlockScriptBuilder: Multisig2of3.unlockScriptBuilder, keys: [MockKey.keyA, MockKey.keyB], verbose: true)
-        print("Mock result3: \(result3)")
+        //let result3 = try MockHelper.verifyMultiKey(lockScript: Multisig2of3.lockScript, unlockScriptBuilder: Multisig2of3.unlockScriptBuilder, keys: [MockKey.keyA, MockKey.keyB], verbose: true)
+        //print("Mock result3: \(result3)")
     } catch let error {
         print("Mock Script Error: \(error)")
     }
