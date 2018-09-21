@@ -21,6 +21,10 @@ class SendUtility {
         
         let lockScriptChange = Script(address: change.address)!
         
+        // 9. OP_RETURNのOutputを作成する
+        
+        // 10. OP_CLTVのOutputを作成する
+        
         let toOutput = TransactionOutput(value: to.amount, lockingScript: lockScriptTo.data)
         let changeOutput = TransactionOutput(value: change.amount, lockingScript: lockScriptChange.data)
         
@@ -69,11 +73,16 @@ class SendUtility {
         return signingTransaction
     }
     
-    func string2ExpiryTime(dateString: String) -> Data {
+    static func string2ExpiryTime(dateString: String) -> Data {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let date = formatter.date(from: dateString)!
         let dateUnix: TimeInterval = date.timeIntervalSince1970
         return Data(from: Int32(dateUnix).littleEndian)
+    }
+    
+    // 11. MultisigのP2SH形式のアドレスを作る
+    static func createMultisigAddress() -> Address {
+        return MockKey.keyA.pubkey.toCashaddr() // この一行は消して下さい
     }
 }

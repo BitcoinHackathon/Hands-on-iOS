@@ -67,3 +67,29 @@ struct answerMultisig2of3 {
     }
 }
 
+struct answerOPIF {
+    // lock script
+    static let lockScript = try! Script()
+        .append(.OP_IF)
+            .append(.OP_DUP)
+            .append(.OP_HASH160)
+            .appendData(MockKey.keyA.pubkeyHash)
+        .append(.OP_ELSE)
+            .append(.OP_DUP)
+            .append(.OP_HASH160)
+            .appendData(MockKey.keyB.pubkeyHash)
+        .append(.OP_ENDIF)
+        .append(.OP_EQUALVERIFY)
+        .append(.OP_CHECKSIG)
+    
+    // unlock script builder
+    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
+        let (sig, key) = arg
+        let script = try! Script()
+            .appendData(sig)
+            .appendData(key.pubkey.data)
+            .append(.OP_TRUE)
+        
+        return script
+    }
+}

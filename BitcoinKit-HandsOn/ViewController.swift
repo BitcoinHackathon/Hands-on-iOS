@@ -80,9 +80,24 @@ class ViewController: UIViewController {
             print(error)
         }
     }
+    
+    func customSend(to toAddress: Address, amount: UInt64, completion: ((String?) -> Void)?) throws {
+        guard let wallet = wallet else {
+            return
+        }
+        let utxos = wallet.utxos()
+        let (utxosToSpend, fee) = try StandardUtxoSelector().select(from: utxos, targetValue: amount)
+        let totalAmount: UInt64 = utxosToSpend.reduce(UInt64()) { $0 + $1.output.value }
+        let change: UInt64 = totalAmount - amount - fee
+        
+        // ここがカスタム！
+        let unsignedTx = try SendUtility.customTransactionBuild(to: (toAddress, amount), change: (wallet.address, change), utxos: utxosToSpend)
+        let signedTx = try SendUtility.customTransactionSign(unsignedTx, with: [wallet.privateKey])
+        
+        let rawtx = signedTx.serialized().hex
+        BitcoinComTransactionBroadcaster(network: .testnet).post(rawtx, completion: completion)
+    }
 }
-
-
 
 // MARK: - Hello, Bitcoin Script!以降で使用します
 func testMockScript() {
@@ -95,6 +110,9 @@ func testMockScript() {
 
         //let result3 = try MockHelper.verifyMultiKey(lockScript: Multisig2of3.lockScript, unlockScriptBuilder: Multisig2of3.unlockScriptBuilder, keys: [MockKey.keyA, MockKey.keyB], verbose: true)
         //print("Mock result3: \(result3)")
+        
+        //let result4 = try MockHelper.verifySingleKey(lockScript: OPIF.lockScript, unlockScriptBuilder: OPIF.unlockScriptBuilder, key: MockKey.keyB, verbose: true)
+        //print("Mock result4: \(result4)")
     } catch let error {
         print("Mock Script Error: \(error)")
     }

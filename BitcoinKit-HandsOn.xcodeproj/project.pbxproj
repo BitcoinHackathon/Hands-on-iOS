@@ -70,11 +70,10 @@
 			children = (
 				0CD8D33321537A40005E941E /* AppDelegate.swift */,
 				0CD8D33521537A40005E941E /* ViewController.swift */,
-				0CD8D34D21539D9B005E941E /* AnswerViewController.swift */,
 				0CD8D34921537E79005E941E /* MockScripts.swift */,
-				0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */,
 				0CD8D34B215388C7005E941E /* SendUtility.swift */,
 				0CD8D3512154904C005E941E /* Extension.swift */,
+				0CD8D3532154AD2E005E941E /* Answer */,
 				0CD8D33721537A40005E941E /* Main.storyboard */,
 				0CD8D33A21537A41005E941E /* Assets.xcassets */,
 				0CD8D33C21537A41005E941E /* LaunchScreen.storyboard */,
@@ -89,6 +88,15 @@
 				0CD8D34621537C95005E941E /* BitcoinKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0CD8D3532154AD2E005E941E /* Answer */ = {
+			isa = PBXGroup;
+			children = (
+				0CD8D34D21539D9B005E941E /* AnswerViewController.swift */,
+				0CD8D34F21539DAB005E941E /* AnswerMockScripts.swift */,
+			);
+			path = Answer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
