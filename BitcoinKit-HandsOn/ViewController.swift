@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         createWalletIfNeeded()
         updateLabels()
         
-        //testMockScript()
+        testMockScript()
     }
     
     func createWalletIfNeeded() {
@@ -102,19 +102,26 @@ class ViewController: UIViewController {
 // MARK: - Hello, Bitcoin Script!以降で使用します
 func testMockScript() {
     do {
-        let result1 = try MockHelper.verifySingleKey(lockScript: simpleCalculation.lockScript, unlockScriptBuilder: simpleCalculation.unlockScriptBuilder, key: MockKey.keyA)
+        // 5. 単純な計算のScript
+        let result1 = try MockHelper.verifySingleKey(lockScript: simpleCalculation.lockScript, unlockScriptBuilder: simpleCalculation.UnlockScriptBuilder(), key: MockKey.keyA)
         print("Mock result1: \(result1)")
-
-        //let result2 = try MockHelper.verifySingleKey(lockScript: P2PKH.lockScript, unlockScriptBuilder: P2PKH.unlockScriptBuilder, key: MockKey.keyA)
+        
+        // 6. P2PKHのScript
+        //let result2 = try MockHelper.verifySingleKey(lockScript: P2PKH.lockScript, unlockScriptBuilder: P2PKH.UnlockScriptBuilder(), key: MockKey.keyA)
         //print("Mock result2: \(result2)")
 
-        //let result3 = try MockHelper.verifyMultiKey(lockScript: Multisig2of3.lockScript, unlockScriptBuilder: Multisig2of3.unlockScriptBuilder, keys: [MockKey.keyA, MockKey.keyB], verbose: true)
+        // 7. 2 of 3 の MultisigのScript
+        //let result3 = try MockHelper.verifyMultiKey(lockScript: Multisig2of3.lockScript, unlockScriptBuilder: Multisig2of3.UnlockScriptBuilder(), keys: [MockKey.keyA, MockKey.keyB], verbose: true)
         //print("Mock result3: \(result3)")
         
-        //let result4 = try MockHelper.verifySingleKey(lockScript: OPIF.lockScript, unlockScriptBuilder: OPIF.unlockScriptBuilder, key: MockKey.keyB, verbose: true)
+        // 8. P2SH形式のMultisig
+        //let result4 = try MockHelper.verifySingleKey(lockScript: P2SHMultisig.lockScript, unlockScriptBuilder: P2SHMultisig.UnlockScriptBuilder(), key: MockKey.keyA)
         //print("Mock result4: \(result4)")
+        
+        // 9. OP_IFを使ったScript
+        //let result5 = try MockHelper.verifySingleKey(lockScript: OPIF.lockScript, unlockScriptBuilder: OPIF.UnlockScriptBuilder(), key: MockKey.keyB, verbose: true)
+        //print("Mock result5: \(result5)")
     } catch let error {
         print("Mock Script Error: \(error)")
     }
 }
-

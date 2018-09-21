@@ -15,9 +15,11 @@ struct simpleCalculation {
     static let lockScript = try! Script()
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let script = try! Script()
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            let script = try! Script()
+            return script
+        }
     }
 }
 
@@ -27,11 +29,15 @@ struct P2PKH {
     static let lockScript = try! Script()
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let (sig, key) = arg
-        let script = try! Script()
-
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let signature = pairs.first?.signature else {
+                return Script()
+            }
+            
+            let script = try! Script()
+            return script
+        }
     }
 }
 
@@ -40,26 +46,57 @@ struct Multisig2of3 {
     // lock script
     static let lockScript = try! Script()
     
-    static let lockScript2 = Script(publicKeys: [MockKey.keyA.pubkey, MockKey.keyB.pubkey, MockKey.keyC.pubkey], signaturesRequired: 1)!
-    
     // unlock script builder
-    static let unlockScriptBuilder = { (pairs: [SigKeyPair]) -> Script in
-        let script = try! Script()
-
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            let script = try! Script().append(.OP_0)
+            pairs.forEach { try! script.appendData($0.signature) }
+            return script
+            
+        }
     }
 }
 
-// TODO: 8. OP_IFを使ったScript
+// TODO: - 8. P2SH形式のMultisig
+struct P2SHMultisig {
+    // lock script
+    static let redeemScript = Script(publicKeys: [MockKey.keyA.pubkey, MockKey.keyB.pubkey, MockKey.keyC.pubkey], signaturesRequired: 1)!
+    
+    static let lockScript = try! Script()
+        .append(.OP_HASH160)
+        .appendData(Crypto.sha256ripemd160(redeemScript.data))
+        .append(.OP_EQUAL)
+    
+    // unlock script builder
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let signature = pairs.first?.signature else {
+                return Script()
+            }
+            
+            let script = try! Script()
+                .append(.OP_0)
+                .appendData(signature)
+                .appendData(redeemScript.data)
+            return script
+        }
+    }
+}
+
+// TODO: 9. OP_IFを使ったScript
 struct OPIF {
     // lock script
     static let lockScript = try! Script()
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let (sig, key) = arg
-        let script = try! Script()
-    
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let signature = pairs.first?.signature else {
+                return Script()
+            }
+            
+            let script = try! Script()
+            return script
+        }
     }
 }

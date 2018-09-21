@@ -9,7 +9,7 @@
 import Foundation
 import BitcoinKit
 
-struct answerSimpleCalculation {
+struct AnswerSimpleCalculation {
     // lock script
     static let lockScript = try! Script()
         .append(.OP_2)
@@ -18,14 +18,16 @@ struct answerSimpleCalculation {
         .append(.OP_EQUAL)
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let script = try! Script()
-            .append(.OP_5)
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            let script = try! Script()
+                .append(.OP_5)
+            return script
+        }
     }
 }
 
-struct answerP2PKH {
+struct AnswerP2PKH {
     // lock script
     static let lockScript = try! Script()
         .append(.OP_DUP)
@@ -35,16 +37,20 @@ struct answerP2PKH {
         .append(.OP_CHECKSIG)
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let (sig, key) = arg
-        let script = try! Script()
-            .appendData(sig)
-            .appendData(key.pubkey.data)
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let sigKeyPair = pairs.first else {
+                return Script()
+            }
+            let script = try! Script()
+                .appendData(sigKeyPair.signature)
+                .appendData(sigKeyPair.key.data)
+            return script
+        }
     }
 }
 
-struct answerMultisig2of3 {
+struct AnswerMultisig2of3 {
     // lock script
     static let lockScript = try! Script()
         .append(.OP_2)
@@ -57,17 +63,42 @@ struct answerMultisig2of3 {
     static let lockScript2 = Script(publicKeys: [MockKey.keyA.pubkey, MockKey.keyB.pubkey, MockKey.keyC.pubkey], signaturesRequired: 1)!
     
     // unlock script builder
-    static let unlockScriptBuilder = { (pairs: [SigKeyPair]) -> Script in
-        let script = try! Script()
-            .append(.OP_0)
-        for pair in pairs {
-            try! script.appendData(pair.sig)
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            let script = try! Script()
+                .append(.OP_0)
+            pairs.forEach { try! script.appendData($0.signature) }
+            return script
         }
-        return script
     }
 }
 
-struct answerOPIF {
+struct AnswerP2SHMultisig {
+    // lock script
+    static let redeemScript = Script(publicKeys: [MockKey.keyA.pubkey, MockKey.keyB.pubkey, MockKey.keyC.pubkey], signaturesRequired: 1)!
+    
+    static let lockScript = try! Script()
+        .append(.OP_HASH160)
+        .appendData(Crypto.sha256ripemd160(redeemScript.data))
+        .append(.OP_EQUAL)
+    
+    // unlock script builder
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let signature = pairs.first?.signature else {
+                return Script()
+            }
+            
+            let script = try! Script()
+                .append(.OP_0)
+                .appendData(signature)
+                .appendData(redeemScript.data)
+            return script
+        }
+    }
+}
+
+struct AnswerOPIF {
     // lock script
     static let lockScript = try! Script()
         .append(.OP_IF)
@@ -83,13 +114,16 @@ struct answerOPIF {
         .append(.OP_CHECKSIG)
     
     // unlock script builder
-    static let unlockScriptBuilder: SingleKeyScriptBuilder = { (arg: (sig: Data, key: MockKey)) -> Script in
-        let (sig, key) = arg
-        let script = try! Script()
-            .appendData(sig)
-            .appendData(key.pubkey.data)
-            .append(.OP_TRUE)
-        
-        return script
+    struct UnlockScriptBuilder: MockUnlockScriptBuilder {
+        func build(pairs: [SigKeyPair]) -> Script {
+            guard let sigKeyPair = pairs.first else {
+                return Script()
+            }
+            let script = try! Script()
+                .appendData(sigKeyPair.signature)
+                .appendData(sigKeyPair.key.data)
+                .append(.OP_TRUE)
+            return script
+        }
     }
 }
